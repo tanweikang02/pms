@@ -1,0 +1,51 @@
+{% extends 'property/layout.html' %}
+
+
+{% block body %}
+    <div class="container">
+
+        <div class="page-identifier d-none">add_property</div>
+
+        <div class='row mt-5'>
+            <div class="col-12">
+                <div class="justify-content-center d-flex form-title mt-5">
+                    Adding New Property
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <form action="" method='POST' class="mt-4 col-lg-6 offset-lg-3 col-sm-12">
+                {% csrf_token %}
+                <div class="d-flex align-items-baseline mt-3">
+                    <p>Name:</p>
+                    <input type="text" class="form-input" name="property_name" placeholder="SkyBridge Residence">
+                </div>
+                <div class="d-flex align-items-baseline mt-3">
+                    <p>Street:</p>
+                    <input type="text" class="form-input" name="street" placeholder="Old Town Road">
+                </div>
+                <div class="d-flex align-items-baseline mt-3">
+                    <p>City:</p>
+                    <select name="city" class="form-input">
+                        <option value="San Francisco">San Francisco</option>
+                        <option value="New York City">New York City</option>
+                        <option value="Brooklyn">Brooklyn</option>
+                        <option value="Chicago">Chicago</option>
+                        <option value="Seattle">Seattle</option>
+                        <option value="Boston">Boston</option>
+                    </select>
+                </div>
+                <div class="d-flex align-items-baseline mt-3">
+                    <p>Current Availability:</p>
+                    <select name="availability" class="form-input col-6 text-center">
+                        <option value="true">True</option>
+                        <option value="New York City">False</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <input type="submit" class="btn form-btn" value="Add">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

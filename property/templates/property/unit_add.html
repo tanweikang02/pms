@@ -1,0 +1,182 @@
+{% extends 'property/layout.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="container">
+
+        {% if add_multiple_unit_error == 'true' %}
+        <div class="message message-error">
+            <div class="row">
+                <div class="d-flex align-items-center ml-4">
+                    <div class="col-2">
+                        <img src="{% static 'property/image/error.svg' %}" alt="success" class="img-fluid">
+                    </div>
+                    <div class="col-10 d-flex flex-column justify-content-center mt-2">
+                        <h5>Error</h5>
+                        <p class="text-muted">Failed to add the units!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if add_unit_error == 'true' %}
+        <div class="message message-error">
+            <div class="row">
+                <div class="d-flex align-items-center ml-4">
+                    <div class="col-2">
+                        <img src="{% static 'property/image/error.svg' %}" alt="success" class="img-fluid">
+                    </div>
+                    <div class="col-10 d-flex flex-column justify-content-center mt-2">
+                        <h5>Error</h5>
+                        <p class="text-muted">Failed to add the unit!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        <div class="page-identifier d-none">unit_add</div>
+
+        <!-- Information/ Guide -->
+        <div class="row mt-5">
+            <div class="col-xl-8 offset-xl-2 col-sm-12 mt-5">
+                <h5>How do you want to add units?</h5>
+                <ul>
+                    <li class="mt-4">
+                        <strong>Unit by Unit</strong> - A slower approach. Good if there is anything special
+                        about the units
+                    </li>
+                    <li class="mt-4">
+                        <strong>Floor by Floor</strong> - This is a much faster and efficient approach. It lets you
+                        add multiple units of the same floor at once.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="row d-flex justify-content-center mt-5">
+            <button class="btn typical-btn-outline mr-4" id="unit-by-unit-btn">Unit By Unit</button>
+            <button class="btn typical-btn-outline ml-4" id="floor-by-floor-btn">Floor By Floor</button>
+        </div>
+
+        <div class="row mt-5 mb-5">
+
+
+            <!-- Add Unit by Unit -->
+            <div id="unit-by-unit" class="d-none col-xl-6 offset-xl-3 col-sm-12">
+                <form action="" method='POST'>
+                    {% csrf_token %}
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Property:</p>
+                        <P>{{ property.name }}</P>
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Unit ID:</p>
+                        <input type="text" class="form-input" name="unit_id" maxlength="256" placeholder="A-12-8">
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Floor:</p>
+                        <input type="number" class="form-input" name="floor" placeholder="12" min="0">
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Number of Rooms:</p>
+                        <input type="number" class="form-input" name="rooms" placeholder="3" min="0">
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Number of Bathrooms:</p>
+                        <input type="number" class="form-input" name="bathrooms" placeholder="2" min="0">
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Size (sq. ft.):</p>
+                        <input type="number" class="form-input" name="size" placeholder="1200" min="1">
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">With Balcony:</p>
+                        <select name="balcony" class="form-input">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Price (US Dollar):</p>
+                        <input type="number" class="form-input" name="price" placeholder="880000" min="1">
+                    </div>
+                    <div class="d-flex align-items-baseline mt-3">
+                        <p class="col-5">Optional Description:</p>
+                        <textarea name="optional_description" class="form-input" style="height: 200px;" rows="5" placeholder="Notes for the Salespeople.."></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <input type="submit" class="btn form-btn" value="Add">
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- Add Floor by Floor -->
+            <div id="floor-by-floor" class="d-none col-12">
+                <div class="mt-5 col-xl-8 offset-xl-2 col-sm-12">
+                    <div class="mt-4">
+                        <h5 class="purple-title mb-3">Property</h5>
+                        <p>{{ property.name }}</p>
+                    </div>
+                    <div class="mt-5">
+    
+                        <!-- Ask for floor input -->
+                        <div class="d-flex align-items-baseline mt-5">
+                            <h6 class="purple-title col-xl-4 col-sm-6">Floor:</h6>
+                            <input type="number" class="form-input" placeholder="26" id="floor-by-floor-floor" min="0">
+                            <button id="floor-by-floor-floor-submit-btn" class="btn typical-btn ml-5">Submit</button>
+                        </div>
+                        <small class="text-muted ml-3 mt-3">Which floor do you want to add unit to?</small>
+    
+                        <!-- Ask for Number of Unit input -->
+                        <div class="d-none" id="floor-by-floor-unit-container">
+                            <div class="d-flex align-items-baseline mt-5">
+                                <h6 class="purple-title col-xl-4 col-sm-6">Number of Unit:</h6>
+                                <input type="number" class="form-input" placeholder="12" min="1" id="floor-by-floor-unit">
+                                <button id="floor-by-floor-unit-submit-btn" class="btn typical-btn ml-5">Submit</button>
+                            </div>
+                            <small class="text-muted ml-3 mt-3">How many Units are there on the floor?</small>
+                        </div>
+    
+                        <!-- Ask for Unit ID Population -->
+                        <div class="d-none" id="floor-by-floor-id-container">
+                            <div class="d-flex align-items-baseline mt-5">
+                                <h6 class="purple-title col-xl-4 col-sm-6">Unit ID(s) Start with:</h6>
+                                <input type="text" class="form-input" placeholder="B-10-" id="floor-by-floor-id">
+                                <button id="floor-by-floor-id-submit-btn" class="btn typical-btn ml-5">Submit</button>
+                            </div>
+                            <small class="text-muted ml-3 mt-3">If the Unit ID is A-12-3, you need to enter 
+                                <span class="mark">A-12-</span>. We will help you populate the last number accordingly.</small>
+                        </div>
+    
+                    </div>
+                </div>
+
+                <!-- Unit Population -->
+                <div class="d-none" id="floor-by-floor-unit-detail" style="margin-top: 10%;">
+                    <p>Fill in details for every unit:</p>
+                    <div class="border-top border-dark mt-4">
+                        <div id="input-created-status" class='d-none'>false</div>
+
+                        <form action="/property/{{ property.id }}/unit/add/multiple" method="POST" id="floor-by-floor-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="floor">
+                            <input type="hidden" name="num_unit">
+                            <input type="hidden" name="unit_id_starts_with">
+                            <!-- JS will create input elements here -->
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}

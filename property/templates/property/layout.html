@@ -1,0 +1,168 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>{% block title %}Property{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'property/style.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{% static 'property/image/favicon.png' %}" sizes="16x16">
+        {% block script %}
+        {% endblock %}
+        
+        <script src="{% static 'property/main.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+        <!--Bootstrap JS, Popper, and JQUERY-->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    <body>
+          <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light align-items-baseline justify-content-between">
+            <a class="navbar-brand" href="/" id="nav-logo">Property</a>
+            <div class="mr-4 d-flex">
+
+
+              <!--Navbar for small screen size-->
+              <div class="d-block d-lg-none" style="width: 35px;">
+                <div data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <img id='nav-hamburger' src="{% static 'property/image/nav-hamburger.svg' %}" alt="Menu" class="img-fluid">
+                  <img id="nav-hamburger-close" src="{% static 'property/image/nav-hamburger-close.svg' %}" alt="Menu-Close" class="img-fluid d-none" style="margin-left: 5px;width:25px">
+                </div>
+              </div>
+
+
+              <!--Navbar for Large screen size-->
+              <div class="d-none d-lg-flex">
+
+                <!-- Property Dropdown -->
+                <p class="mr-4 pl-2 pr-2 pt-2 pb-2 nav-btn rounded" id="nav-property">Property</p>
+                <div class="nav-dropdown border-top" id="nav-property-dropdown">
+                  
+                  <a href="{% url 'note' %}" style="text-decoration: none;">
+                    <div class="nav-dropdown-item d-flex border-bottom align-items-center pt-2 pb-2" id="nav-option-my-notes">
+                      <div class="col-4">
+                        <img class="nav-dropdown-icon" src="{% static 'property/image/navbar-note.svg' %}" alt="note">
+                      </div>
+                      <div>My Notes</div>
+                    </div>
+                  </a>
+  
+                  
+                  <a href="{% url 'booking' %}" style="text-decoration: none;">
+                    <div class="nav-dropdown-item d-flex border-bottom align-items-center pt-2 pb-2" id="nav-option-my-bookings">
+                      <div class="col-4">
+                        <img class="nav-dropdown-icon" src="{% static 'property/image/appointment_icon.svg' %}" alt="booking">
+                      </div>
+                      <div>My Bookings</div>
+                    </div>
+                  </a>
+  
+  
+                  <a href="{% url 'sale' %}" style="text-decoration: none;">
+                    <div class="nav-dropdown-item d-flex border-bottom align-items-center pt-2 pb-2" id="nav-option-my-sales">
+                      <div class="col-4">
+                        <img class="nav-dropdown-icon" src="{% static 'property/image/sale.svg' %}" alt="sale">
+                      </div>
+                      <div>My Sales</div>
+                    </div>
+                  </a>
+  
+  
+                  {% if request.user.is_superuser %}
+                  <a href="{% url 'add_property' %}" style="text-decoration: none;">
+                    <div class="nav-dropdown-item d-flex border-bottom align-items-center pt-2 pb-2" id="nav-option-add-property">
+                      <div class="col-4">
+                        <img class="nav-dropdown-icon" src="{% static 'property/image/apartment.svg' %}" alt="add">
+                      </div>
+                      <div>Add Property</div>
+                    </div>
+                  </a>
+                  {% endif %}
+  
+  
+                </div>
+  
+  
+                <p class="nav-btn pl-2 pt-2 pb-2 pr-2 mr-5 rounded" id="nav-salesperson">Account</p>
+  
+                <!-- Salesperson (Account) Dropdown -->
+                <div class="nav-dropdown border-top" id="nav-salesperson-dropdown">
+  
+                  <a href="{% url 'profile' %}" style="text-decoration: none;">
+                    <div class="nav-dropdown-item d-flex border-bottom align-items-center pt-2 pb-2" id="nav-option-my-profile">
+                      <div class="col-4">
+                        <img class="nav-dropdown-icon" src="{% static 'property/image/profile.svg' %}" alt="add">
+                      </div>
+                      <div>My Profile</div>
+                    </div>
+                  </a>
+  
+  
+  
+                  {% if request.user.is_superuser %}
+                  <a href="{% url 'create_user' %}" style="text-decoration: none;">
+                    <div class="nav-dropdown-item d-flex border-bottom align-items-center pt-2 pb-2" id="nav-option-create-user">
+                      <div class="col-4">
+                        <img class="nav-dropdown-icon" src="{% static 'property/image/Add.svg' %}" alt="add">
+                      </div>
+                      <div>Create User</div>
+                    </div>
+                  </a>
+                  {% endif %}
+  
+                  <a href="/logout" style="text-decoration: none;">
+                    <div class="nav-dropdown-item d-flex border-bottom align-items-center pt-2 pb-2">
+                      <div class="col-4">
+                        <img class="nav-dropdown-icon" src="{% static 'property/image/logout.svg' %}" alt="add">
+                      </div>
+                      <div>Logout</div>
+                    </div>
+                  </a>
+  
+                </div>
+              </div>
+            </div>
+          </nav>
+          <!--Mobile Devices Menu-->
+          <div class="collapse" id="navbarToggleExternalContent">
+            <div style="margin-top: 130px; line-height: 2.8rem;">
+              <div class="d-flex flex-column align-items-center">
+                <a href="{% url 'note' %}">
+                  <p>Notes</p>
+                </a>
+                <a href="{% url 'booking' %}">
+                  <p>Bookings</p>
+                </a>
+                <a href="{% url 'sale' %}">
+                  <p>Sales</p>
+                </a>
+                {% if request.user.is_superuser %}
+                <a href="{% url 'add_property' %}">
+                  <p>Add Property</p>
+                </a>
+                {% endif %}
+                <a href="{% url 'profile' %}">
+                  <p>Profile</p>
+                </a>
+                {% if request.user.is_superuser %}
+                <a href="{% url 'create_user' %}">
+                  <p>Create User</p>
+                </a>
+                {% endif %}
+                <a href="/logout">
+                  <p>Logout</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,106 @@
+{% extends 'property/layout.html' %}
+{% load static %}
+
+{% block script %}
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+{% endblock %}
+
+
+{% block body %}
+
+    
+    <div class="container">
+
+        {% if property_added == 'true' %}
+        <div class="message message-success">
+            <div class="row">
+                <div class="d-flex align-items-center ml-4">
+                    <div class="col-2">
+                        <img src="{% static 'property/image/success.svg' %}" alt="success" class="img-fluid">
+                    </div>
+                    <div class="col-10 d-flex flex-column justify-content-center mt-2">
+                        <h5>Success</h5>
+                        <p class="text-muted">The Property has been added!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="page-identifier d-none">index</div>
+
+        <div class="row d-flex justify-content-center mt-5">
+            <h4 class="mt-5">Properties Available</h4>
+        </div>
+        <div class="row index-property-list mt-5">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="border-top pt-2" id="property_list"></div>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center mt-5 pt-5 mb-4">
+            <h4>Your Information</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 col-12 d-lg-flex">
+                <div class="col-lg-6 col-8 offset-2 offset-lg-0">
+                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_z3pnisgt.json"  background="transparent"  speed="1" class="img-fluid" loop  autoplay></lottie-player>
+                </div>
+                <div class="col-lg-6 col-12 mt-5 mt-xl-1 mb-5">
+                    <div class="d-flex justify-content-lg-start justify-content-center">
+                        <p class="mt-lg-5">Take a look at your profile to make sure the information is up-to-date.</p>
+                    </div>
+                    <div class="d-flex justify-content-center mt-5">
+                        <a href="{% url 'profile' %}">
+                            <button class="btn typical-btn">Take me there</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row d-flex justify-content-center mt-5 pt-5 mb-4">
+            <h4>Your Notes</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 col-12 d-lg-flex">
+                <div class="col-lg-6 col-8 offset-2 offset-lg-0">
+                    <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_p7ml1rhe.json"  background="transparent"  speed="1" class="img-fluid" loop autoplay></lottie-player>
+                </div>
+                <div class="col-lg-6 col-12 mt-5 mt-xl-1 mb-5">
+                    <div class="d-flex justify-content-lg-start justify-content-center">
+                        <p class="mt-lg-5">A quick and convenient pathway to access the notes you created.</p>
+                    </div>
+                    <div class="d-flex justify-content-center mt-5">
+                        <a href="{% url 'note' %}">
+                            <button class="btn typical-btn">See My Notes</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row d-flex justify-content-center mt-5 pt-5 mb-5 mb-lg-4">
+            <h4>Your Bookings</h4>
+        </div>
+        <div class="row mb-5">
+            <div class="col-lg-8 offset-lg-2 col-12 d-lg-flex">
+                <div class="col-lg-6 col-8 offset-2 offset-lg-0">
+                    <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_k2ko6iwj.json"  background="transparent"  speed="1" class="img-fluid" loop  autoplay></lottie-player>
+                </div>
+                <div class="col-lg-6 col-12 mt-5 mt-xl-1 mb-5">
+                    <div class="d-flex justify-content-lg-start justify-content-center">
+                        <p class="mt-lg-5">Make bookings when client pays deposit to book a unit.</p>
+                    </div>
+                    <div class="d-flex justify-content-center mt-5">
+                        <a href="{% url 'booking' %}">
+                            <button class="btn typical-btn">See My Bookings</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

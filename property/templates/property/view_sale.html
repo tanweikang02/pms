@@ -1,0 +1,123 @@
+{% extends 'property/layout.html' %}
+{% load static %}
+{% load property_tags %}
+
+{% block body %}
+<div class="container">
+
+    <div class="page-identifier d-none">view_sale</div>
+
+    {% if sale_creation_success == 'true' %}
+    <div class="message message-success">
+        <div class="row">
+            <div class="d-flex align-items-center ml-4">
+                <div class="col-2">
+                    <img src="{% static 'property/image/success.svg' %}" alt="success" class="img-fluid">
+                </div>
+                <div class="col-10 d-flex flex-column justify-content-center mt-2">
+                    <h5>Success</h5>
+                    <p class="text-muted">The Sale has been created!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="addFileModal" tabindex="-1" role="dialog" aria-labelledby="addFileModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Files</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="/api/add_sale_file/{{ sale.id }}" enctype="multipart/form-data" class="mt-4" method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center">
+                            <input type="file" name="files" multiple required>
+                        </div>
+                        <div class="d-flex flex-row-reverse mt-5">
+                            <input type="submit" class="btn typical-btn ml-4 pl-3 pr-3" value="Add">
+                            <button type="button" class="btn btn-danger pl-3 pr-3" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-xl-8 offset-xl-2 col-sm-2 mt-5">
+            <div class="d-flex justify-content-center">
+                <h4>Sale</h4>
+            </div>
+            <div class="mt-5">
+                <h5 class="purple-title">Sale ID</h5>
+                <p id="sale_id">{{ sale.id }}</p>
+            </div>
+            <div class="mt-5">
+                <h5 class="purple-title">Date</h5>
+                <p>{{ sale.date }}</p>
+            </div>
+            <div class="mt-5">
+                <h5 class="purple-title">Client Name</h5>
+                <a href="/client/{{ sale.customer.id }}"><p>{{ sale.customer.name }}</p></a>
+            </div>
+            <div class="mt-5">
+                <h5 class="purple-title">Property Unit</h5>
+                <a href="/unit/{{ sale.unit.id }}"><p>{{ sale.unit.property.name }} (Unit ID: {{ sale.unit.unit_id }})</p></a>
+            </div>
+            <div class="mt-5">
+                <h5 class="purple-title">Related Booking</h5>
+                <a href="/booking/{{ sale.booking.id }}"><p>Booking - ID :{{ sale.booking.id }}</p></a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-xl-8 col-sm-12 offset-xl-2">
+            <div class="d-flex justify-content-center">
+                <h4>Uploaded Files</h4>
+            </div>
+            {% if number_of_file != 0 %}
+            <div class="d-flex justify-content-center mt-4">
+                <button class="btn typical-btn pl-3 pr-3 mr-3" data-toggle="modal" data-target="#addFileModal">Add Files</button>
+                <button class="btn typical-btn pl-3 pr-3 ml-3" id="delete_file_btn">Select and Delete Files</button>
+            </div>
+            {% endif %}
+            <div class="mt-4 mb-5">
+                {% for file in files %}
+                <div class="border-bottom pt-3 pb-3" id="{{ file.id }}">
+
+                    <!--Checkboxes-->
+                    <span class="mr-3 d-none checkbox-not-selected"><img src="{% static 'property/image/checkbox-outline.svg' %}" alt="checkbox_not_selected" style="width: 25px;"></span>
+                    <span class="mr-3 d-none checkbox-selected"><img src="{% static 'property/image/checkbox.svg' %}" alt="checkbox_selected" style="width: 25px;"></span>
+                    
+                    <a href="/api/sale_file/{{ file.id }}">
+                        <span>{{ file.file.name | format_sale_name }}</span>
+                    </a>
+                    <span class="float-right">{{ file.timestamp }}</span>
+                </div>
+                {% empty %}
+                <div class="d-flex mt-5">
+                    <div class="col-xl-6 col-sm-12">
+                        <img src="{% static 'property/image/empty.svg' %}" alt="empty" class="img-fluid">
+                    </div>
+                    <div class="col-xl-6 col-sm-12 mt-5 justify-content-center d-flex">
+                        <div>
+                            <p>No Uploaded File Yet.</p>
+                            <button class="btn typical-btn mt-3" data-toggle="modal" data-target="#addFileModal">Add now</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="d-none mt-4" id="confirm-delete-btn">
+                    <div class="d-flex justify-content-center">
+                        <button class="btn typical-btn" style="background-color: #960019;">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

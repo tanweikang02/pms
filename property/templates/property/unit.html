@@ -1,0 +1,99 @@
+{% extends 'property/layout.html' %}
+
+{% block body %}
+<div class="container">
+    <div class="d-none page-identifier">unit</div>
+    <div class="row mt-5">
+        <div class="mt-5 col-xl-8 col-sm-12 offset-xl-2">
+            <div class="d-flex justify-content-center">
+                <h4>Unit Information</h4>
+            </div>
+            <div class="d-flex justify-content-center align-items-baseline mt-4">
+                <h5 class="mr-3"><strong>Status :</strong></h5> 
+                {% if unit.ultimate_availability is True %} <span style="color: #0ea522">Available</span> {% else %} <span style="color: #e21b0d;">Unavailable</span> {% endif %}
+            </div>
+
+            {% if current_booking is not None %}
+            {% if request.user != current_booking.salesperson %}
+            <div class="d-flex justify-content-center mt-3 text-muted">
+                <p>This Unit is booked until {{ booking_end_date }}.</p>
+            </div>
+            {% else %}
+            <div class="d-flex justify-content-center mt-3 text-muted">
+                <p>You have booked this Unit until {{ booking_end_date }}. You can sell it by pressing the button at bottom.</p>
+            </div>
+            {% endif %}
+            {% endif %}
+
+            {% if sold_out is True %}
+            <div class="d-flex justify-content-center mt-3 text-muted">
+                <p>This Unit is sold out.</p>
+            </div>
+            {% endif %}
+
+            <div class="mt-5">
+                <h5 class="purple-title">Property</h5>
+                <a href="/property/{{ unit.property.id }}">
+                    <p>{{ unit.property.name }}</p>
+                </a>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">Unit ID</h5>
+                <p>{{ unit.unit_id }}</p>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">Floor</h5>
+                <p>{{ unit.floor }}</p>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">Number of Rooms</h5>
+                <p>{{ unit.rooms }}</p>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">Number of Bathrooms</h5>
+                <p>{{ unit.bathrooms }}</p>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">Size</h5>
+                <p>{{ unit.size }}</p>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">With Balcony?</h5>
+                <p>{% if unit.with_balcony == True %}Yes{% else %}No{% endif %}</p>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">Price</h5>
+                <p>USD ${{ unit.price }}</p>
+            </div>
+            <div class="mt-4">
+                <h5 class="purple-title">Description</h5>
+                <p>
+                    {% if unit.optional_description %}
+                    {{ unit.optional_description }}
+                    {% else %}
+                    No description for this unit.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% if sold_out is False %}
+    <div class="row mt-5 mb-5">
+        <div class="col-xl-8 offset-xl-2 col-sm-12">
+            <div class="d-flex justify-content-center">
+                {% if unit.ultimate_availability == True %}
+                <a href="/unit/{{ unit.id }}/booking/create">
+                    <button class="btn typical-btn pl-3 pr-3 mr-5">Book this Unit</button>
+                </a>
+                {% endif %}
+                {% if request.user == current_booking.salesperson %}
+                <a href="/booking/{{ current_booking.id }}/turn_sale">
+                    <button class="btn typical-btn pl-3 pr-3 ml-5">Sell this Unit</button>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

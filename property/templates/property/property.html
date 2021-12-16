@@ -1,0 +1,150 @@
+{% extends 'property/layout.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="container">
+
+        {% if add_unit_success == 'true' %}
+        <div class="message message-success">
+            <div class="row">
+                <div class="d-flex align-items-center ml-4">
+                    <div class="col-2">
+                        <img src="{% static 'property/image/success.svg' %}" alt="success" class="img-fluid">
+                    </div>
+                    <div class="col-10 d-flex flex-column justify-content-center mt-2">
+                        <h5>Success</h5>
+                        <p class="text-muted">Units have been added!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if create_note_success == 'true' %}
+        <div class="message message-success">
+            <div class="row">
+                <div class="d-flex align-items-center ml-4">
+                    <div class="col-2">
+                        <img src="{% static 'property/image/success.svg' %}" alt="success" class="img-fluid">
+                    </div>
+                    <div class="col-10 d-flex flex-column justify-content-center mt-2">
+                        <h5>Success</h5>
+                        <p class="text-muted">The note has been created!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        <div class="page-identifier d-none">property</div>
+        <div class="d-none" id="property_id">{{ property.id }}</div>
+        <div class="d-none" id="availability">{{ property.availability }}</div>
+        
+        <div class="row mt-5">
+            <div class="col-xl-8 col-sm-12 offset-xl-2 mt-5">
+                <div class="d-flex justify-content-center">
+                    <h4>Property Information</h4>
+                </div>
+                <div class="mt-5">
+                    <h5 class="purple-title">Property Name</h5>
+                    <p>{{ property.name }}</p>
+                </div>
+                <div class="mt-4">
+                    <h5 class="purple-title">Property Address - Street</h5>
+                    <p>{{ property.street }}</p>
+                </div>
+                <div class="mt-4">
+                    <h5 class="purple-title">Property Address - City</h5>
+                    <p>{{ property.city }}</p>
+                </div>
+                <div class="mt-4">
+                    <h5 class="purple-title">Created at</h5>
+                    <p>{{ property.timestamp }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div id='status_available' class="d-none">
+                <div class="col-xl-8 col-sm-12 offset-xl-2 d-flex border-left-green">
+                    <div class="col-xl-4 col-sm-8 offset-sm-2 pr-5">
+                        <img src="{% static 'property/image/house.svg' %}" alt="property-available" class="img-fluid">
+                    </div>
+                    <div class="mt-4 ml-2">
+                        <p>This property is available at the moment.</p>
+                        <button class="btn typical-btn" id="make_booking_btn">Make Booking</button>
+                        {% if request.user.is_superuser %}
+                            <button class="btn typical-btn mt-3 availability_toggle" style="background-color: #e21b0d;">Make this property unavailable</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div id="status_unavailable" class="d-none">
+                <div class="col-xl-8 col-sm-12 offset-xl-2 d-flex border-left-red">
+                    <div class="col-xl-4 col-sm-8 offset-sm-2 pr-5">
+                        <img src="{% static 'property/image/house.svg' %}" alt="property-unavailable" class="img-fluid">
+                    </div>
+                    <div class="mt-4 ml-2">
+                        <p>This property is unavailable at the moment.</p>
+                        {% if request.user.is_superuser %}
+                            <button class="btn typical-btn mt-3 availability_toggle" style="background-color: #0bc524;">Make this property available</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-xl-8 offset-xl-2 col-sm-12 mt-5">
+                <div class="d-flex justify-content-center border-bottom border-dark pb-4">
+                    <h4>My Notes</h4>
+                </div>
+                <div class="mb-5">
+                    {% for note in notes %}
+                    <a href="/view_note/{{ note.id }}">
+                        <div class="border-bottom border-dark pt-3 d-flex justify-content-between">
+                            <p>{{ note.title }}</p>
+                            <p>{{ note.timestamp }}</p>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <div class="d-flex justify-content-center border-bottom border-dark pt-3">
+                        <p>No note yet.</p>
+                    </div>
+                    {% endfor %}
+                    <div class="d-flex justify-content-center mt-4">
+                        <a href="/property/{{ property.id }}/create_note">
+                            <button class="btn typical-btn">Create Notes</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if property.availability is True %}
+        <div class="row mt-5" id="section_property_units">
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <h4>Property Units</h4>
+                </div>
+                {% if request.user.is_superuser %}
+                <div class="d-flex justify-content-center mt-4">
+                    <a href="/property/{{ property.id }}/unit/add">
+                        <button class="btn typical-btn">+ Add Units for this property</button>
+                    </a>
+                </div>
+                {% endif %}
+                <div class="d-flex justify-content-center mt-5 mb-4 align-items-baseline">
+                    <p class="mr-4">Sort By:</p>
+                    <button class="btn typical-btn-outline mr-3" id="sort_price">Price</button>
+                    <button class="btn typical-btn-outline mr-2" id="sort_floor">Floor</button>
+                    <button class="btn typical-btn-outline ml-2" id="sort_size">Size</button>
+                    <button class="btn typical-btn-outline ml-3" id="sort_rooms">Rooms</button>
+                </div>
+                <div id='property_units' class="col-xl-8 offset-xl-2 mt-5 mb-5">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+<!-- Now need to do sorting (price, floor etc.) in JS FILE -->

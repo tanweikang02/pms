@@ -1,0 +1,53 @@
+{% extends 'property/layout.html' %}
+
+
+{% block body %}
+<div class="container">
+
+    <!-- Customer creation ERROR -->
+    {% if customer_creation_error == 'true' %}
+    <div style="position: fixed; right: 50px; bottom: 40px;">Failed to Create Customer!</div>
+    {% endif %}
+
+    <!-- Booking creation ERROR -->
+    {% if booking_creation_error == 'true' %}
+    <div style="position: fixed; right: 50px; bottom: 40px;">Failed to Create Booking!</div>
+    {% endif %}
+
+    <!-- File creation ERROR -->
+    {% if file_creation_error == 'true' %}
+    <div style="position: fixed; right: 50px; bottom: 40px;">Failed to Save the Files!</div>
+    {% endif %}
+
+
+    <div class="d-none page-identifier">create_booking</div>
+    <div class="row mt-5">
+        <div class="col-xl-8 offset-xl-2 col-sm-12 mt-5">
+            <div class="d-flex justify-content-center">
+                <h4>Creating Booking</h4>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <p><strong>Property :</strong> {{ unit.property.name }}</p>
+            </div>
+            <div class="d-flex justify-content-center mt-2">
+                <p><strong>Unit ID :</strong> {{ unit.unit_id }}</p>
+            </div>
+            <div class="d-flex justify-content-center mt-2">
+                <p><strong>Price :</strong> USD ${{ unit.price }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-xl-6 offset-xl-3 col-sm-12">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <div class="d-flex justify-content-center mt-4 mb-5">
+                    <input type="submit" value="Create" class="btn typical-btn">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

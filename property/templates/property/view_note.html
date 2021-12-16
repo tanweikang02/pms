@@ -1,0 +1,19 @@
+{% extends 'property/layout.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 offset-xl-2 col-sm-12">
+                <div class="d-flex justify-content-center">
+                    <h4>Note Details</h4>
+                </div>
+                <h4 class="property-info-title mt-5">Title</h4>
+                <p>{{ note.title }}</p>
+                <h4 class="property-info-title mt-4">Body</h4>
+                <p>{{ note.content }}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

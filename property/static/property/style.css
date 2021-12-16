@@ -1,0 +1,165 @@
+body {
+  font-family: "B612", sans-serif;
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+.form-title {
+  color: #8860d0;
+  font-size: 1.5em;
+}
+
+.form-btn {
+  color: #ffffff;
+  background-color: #8860d0;
+  padding: 8px 20px 8px 20px;
+}
+
+.form-input {
+  border-radius: 3px;
+  border: 2px solid #dfe2ec;
+  height: 2em;
+  width: 100%;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.form-input:focus {
+  outline: 2px solid #8860d0;
+}
+
+#nav-logo {
+  color: #5680e6;
+}
+
+.nav-btn {
+  color: #5680e6;
+  cursor: pointer;
+  transition: ease-in 0.2s;
+}
+
+.nav-btn:hover {
+  color: #0d4ae2;
+}
+
+.nav-dropdown {
+  height: auto;
+  width: 230px;
+  position: absolute;
+  z-index: 999;
+  top: 100%;
+  display: none;
+  background-color: #ffffff;
+}
+
+.nav-dropdown-item {
+  color: #000000;
+  transition: ease-in 0.1s;
+}
+
+.nav-dropdown-item:hover {
+  background-color: #dfe2ec;
+}
+
+.nav-dropdown-icon {
+  max-height: 40px;
+}
+
+.typical-btn {
+  background-color: #5d2ce4;
+  color: #ffffff;
+}
+
+.index-property-list {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.purple-title {
+  font-weight: bold;
+  color: #5d2ce4;
+}
+
+.border-left-green {
+  border-left: 4px solid #0de229;
+}
+
+.border-left-red {
+  border-left: 4px solid #e21b0d;
+}
+
+.typical-btn-outline {
+  border: 2px solid #5d2ce4;
+  color: #5d2ce4;
+}
+
+.typical-btn-outline.active {
+  background-color: #5d2ce4;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.checkbox-not-selected {
+  cursor: pointer;
+}
+
+.checkbox-selected {
+  cursor: pointer;
+}
+
+.edit-data-btn {
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  0% {
+    right: -500px;
+  }
+  100% {
+    right: 5%;
+    animation-delay: 3s;
+  }
+}
+
+.message {
+  position: fixed;
+  z-index: 999;
+  border-radius: 10px;
+  height: 80px;
+  width: 400px;
+  bottom: 5%;
+  right: 5%;
+  background-color: #ffffff;
+  animation: fadeIn ease-in 0.3s;
+}
+
+.message-success {
+  border-left: 9px solid #0cc524;
+  border-bottom: 5px solid #0cc524;
+}
+
+.message-error {
+  border-left: 9px solid #ba0817;
+  border-bottom: 5px solid #ba0817;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  animation: fadeOut ease 0.2s;
+  opacity: 0;
+}
+
+/* Medium devices (landscape tablets, 768px and down) 
+
+@media only screen and (max-width: 768px) {
+}

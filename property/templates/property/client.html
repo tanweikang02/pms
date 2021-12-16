@@ -1,0 +1,27 @@
+{% extends 'property/layout.html' %}
+
+{% block body %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-lg-8 offset-lg-2 col-12 mt-5">
+            <div class="d-flex justify-content-center">
+                <h4>Client Information</h4>
+            </div>
+            <div>
+                <div class="mt-5">
+                    <h5 class="purple-title">Client Name</h5>
+                    <p>{{ client.name }}</p>
+                </div>
+                <div class="mt-5">
+                    <h5 class="purple-title">Client Contact</h5>
+                    <p>{{ client.contact }}</p>
+                </div>
+                <div class="mt-5">
+                    <h5 class="purple-title">Client Email</h5>
+                    <p>{{ client.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
